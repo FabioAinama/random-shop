@@ -12,6 +12,14 @@ const rootReducer = (state = initialState, action) => {
 				...state,
 				items: action.payload
 			}
+		case actionTypes.ADD_CART:
+			return {
+				...state,
+				cart: [
+					...state.cart,
+					action.payload
+				]
+			}
 		default:
 			return state;
 	}

@@ -7,7 +7,11 @@ const LandingPage = () => (
       <h1>Welcome to our Random Shop!</h1>
       <p>Discover all we got to sell by clicking the button below</p>
       <button>
-        <Link to="/shop/">Go to shop</Link>
+        <Link 
+          to={{
+            pathname: "/shop/",
+            search: "?page=1",
+          }} >Go to shop</Link>
       </button>
   </>
 )

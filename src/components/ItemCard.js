@@ -1,9 +1,11 @@
 import React from 'react'
 
-const ItemCard = () => {
+const ItemCard = ({item, addToCard}) => {
 	return (
 		<div>
-			ItemCard Component
+			<img src={item.thumbnailUrl} alt={item.title} />
+			<h3>{item.title}</h3>
+			<button onClick={() => addToCard(item)} >Add</button>
 		</div>
 	)
 }

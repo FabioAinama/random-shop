@@ -1,19 +1,33 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import * as actionCreators from '../store/actions';
+import { List, Button, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
 
 const Cart = (props) => {
-	console.log(props)
+	const count = props.cart.reduce((a, b) => ( a + b.quantity), 0)
 	return (
-		<div>
-			Cart Component
-			<p>Number of items: </p>
-			<ul>
-				{props.cart.map(item => <li key={item.id}>{item.title}</li>)}
-			</ul>
-		</div>
+		<aside>
+			Your Cart:
+			<List dense>
+				{props.cart.map((item) => {
+					return (
+						<React.Fragment key={item.id}>
+							<ListItem button>
+								<ListItemAvatar>
+									<Avatar
+										alt={item.title}
+										src={item.thumbnailUrl}
+									/>
+								</ListItemAvatar>
+								<ListItemText primary={item.title} />
+								<ListItemText secondary={item.quantity} />
+							</ListItem>
+							<Button variant="outlined" color="primary" onClick={() => props.onRemoveCard(item.id)}>Delete</Button>
+						</React.Fragment>
+					)
+				})}
+			</List>
+			<p>Number of items: {count}</p>
+		</aside>
 	)
 }
 
-// export default connect()(Cart);
 export default Cart;

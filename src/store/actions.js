@@ -9,25 +9,25 @@ export const load_items = (items) => {
 		type: FETCH_ITEMS,
 		payload: items
 	};
-}
+};
 
 export const fetch_items = () => {
 	return async (dispatch) => {
 		const payload = await fetchItems();
 		dispatch(load_items(payload));
 	};
-}
+};
 
 export const add_cart = (item) => {
 	return {
 		type: ADD_CART,
 		payload: item
-	}
-}
+	};
+};
 
-export const remove_cart = (item) => {
+export const remove_cart = (id) => {
 	return {
 		type: REMOVE_CART,
-		payload: item
-	}
-}
+		id
+	};
+};

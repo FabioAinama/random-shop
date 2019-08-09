@@ -3,12 +3,14 @@ import ItemCard from '../components/ItemCard';
 import Cart from '../components/Cart';
 import { connect } from 'react-redux';
 import * as actionCreators from '../store/actions';
+import { Container, Button, Box, TextField } from '@material-ui/core';
+import styles from './shop.module.css'
 
 class Shop extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// page: 1,
+			search: '',
 			loading: true
 		}
 	}
@@ -23,7 +25,6 @@ class Shop extends Component {
 			page: currentPage,
 		})
 	};
-
 	
 	onChangePage = (action) => {
 		let nextPage = 0;
@@ -38,14 +39,19 @@ class Shop extends Component {
 			page: prevState.page + nextPage,
 			loading: false
 		}), this.props.history.push(`/shop/?page=${this.state.page + nextPage}`))
-		
+		window.scrollTo(0, 0)
 	}
 
+	onSearch = event => {
+		this.setState({search: event.target.value})
+	}
+	
 	render() {
-		console.log(this.state)
+		// Pagination
 		const pagination = [];
-		for (const item of this.props.items) {
-			if (item.id > (this.state.page * 15))
+		const searchArray = this.state.search === '' ? this.props.items : this.props.items.filter(item => item.title.includes(this.state.search));
+		for (const item of searchArray) {
+			if (item.id > (this.state.page * 15) && pagination.length > 15)
 				break
 			else if (item.id <= (this.state.page * 15 - 15))
 				continue
@@ -54,15 +60,29 @@ class Shop extends Component {
 		}
 
 		return (
-			<div>
-				<Cart cart={this.props.cart} />
-				Random Shop
-				{pagination.map(item => {
-					return <ItemCard key={item.id} item={item} addToCard={this.props.onAddCard} />
-				})}
-				{this.state.page !== 1 && <button onClick={() => this.onChangePage('previous')}>Previous</button>}
-				<button onClick={() => this.onChangePage('next')}>Next</button>
-			</div>
+			<Container maxWidth="lg" className={styles.gridContainer}>
+				<main>
+					<h1>Random Shop</h1>
+					<Box className={styles.buttonLine}>
+						<TextField
+							label="Search"
+							value={this.state.search}
+							onChange={this.onSearch}
+							margin="normal"
+						/>
+					</Box>
+					{pagination.map(item => {
+						return <ItemCard key={item.id} item={item} addToCard={this.props.onAddCard} />
+					})}
+					<Box className={styles.buttonLine}>
+						{this.state.page !== 1 && <Button variant="contained" color="primary" onClick={() => this.onChangePage('previous')}>Previous</Button>}
+						<Button variant="contained" color="primary" onClick={() => this.onChangePage('next')}>
+							Next
+						</Button>
+					</Box>
+				</main>
+				<Cart cart={this.props.cart} onRemoveCard={this.props.onRemoveCard} />
+			</Container>
 		);
 	};
 };
@@ -78,6 +98,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onFetchItems: () => dispatch(actionCreators.fetch_items()),
 		onAddCard: (item) => dispatch(actionCreators.add_cart(item)),
+		onRemoveCard: (id) => dispatch(actionCreators.remove_cart(id)),
 	};
 };
 

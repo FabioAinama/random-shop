@@ -1,0 +1,21 @@
+
+.gridContainer {
+	text-align: center;
+	display: grid;
+	grid-template-columns: 100%;
+}
+
+.buttonLine {
+	text-align: center;
+}
+
+.buttonLine button:first-of-type {
+	margin-left: -10px;
+	margin-right: 10px;
+}
+
+@media screen and (min-width: 769px) {
+	.gridContainer {
+		grid-template-columns: 70% 30%;
+	}
+}

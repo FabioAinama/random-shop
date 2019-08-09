@@ -1,20 +1,7 @@
 import React from 'react';
 import Shop from './pages/Shop';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
-const LandingPage = () => (
-  <>
-      <h1>Welcome to our Random Shop!</h1>
-      <p>Discover all we got to sell by clicking the button below</p>
-      <button>
-        <Link 
-          to={{
-            pathname: "/shop/",
-            search: "?page=1",
-          }} >Go to shop</Link>
-      </button>
-  </>
-)
+import LandingPage from './pages/LandingPage';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 const App = () => {
   return (
